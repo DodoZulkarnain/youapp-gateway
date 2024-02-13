@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+    youapp:
+        build: .
+        container_name: youapp
+        environment:
+            SecretJWT: 'youapp'
+            RefreshJWT: 'ThisIsNewRefreshToken'
+            ExpiredJWT: 120
+            ExpiredRefreshToken: 3600
+            MongoDBConn: 'mongodb://172.168.99.124/youapp'
+            PORT: 3000
+        ports:
+            - 3000:3000
