@@ -3,9 +3,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
-import { User, userSchema } from  'src/schema/user.schema';
-import { UserToken, userTokenSchema } from  'src/schema/userToken.schema';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
@@ -19,16 +17,16 @@ import { UserToken, userTokenSchema } from  'src/schema/userToken.schema';
             expiresIn: Number(process.env.ExpiredJWT)
         },
       }),
-      MongooseModule.forFeature([
+      ClientsModule.register([
         {
-          name : User.name,
-          schema: userSchema
-        },
-        {
-          name: UserToken.name,
-          schema: userTokenSchema
+          name: 'AUTH',
+          transport: Transport.TCP,
+          options: {
+            host: 'localhost',
+            port: 3002,
+          },
         }
-      ]),
+    ]),
     ],
   controllers: [AuthController],
   providers: [AuthService]

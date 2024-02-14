@@ -1,6 +1,9 @@
 import { IsBase64, IsDate, IsEnum, IsNotEmpty, IsNumber, IsObject, IsOptional } from "class-validator";
 
 export class updateProfileDto {
+    @IsOptional()
+    _id : string
+
     @IsNotEmpty()
     fullname: string
 
